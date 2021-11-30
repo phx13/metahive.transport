@@ -1,19 +1,22 @@
 # metahive.transport
 
-## Project setup
-```
-npm install
-```
+## 元巢在途运输管理平台
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+### 前端
++ vue-cli
++ Bootstrap 5
++ vxe-table
++ OpenLayers 6
 
-### Compiles and minifies for production
-```
-npm run build
-```
+### 后端
++ Springboot 2
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### 数据库持久层
++ Mybatis-Plus
+
+### 数据库
++ MySql
+
+### 安全验证
++ Spring security
++ JWT
