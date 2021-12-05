@@ -117,7 +117,7 @@
 
 <script>
 
-import XEAjax from 'xe-ajax'
+import request from "@/assets/js/request";
 
 export default {
   name: "ManagementTable",
@@ -144,8 +144,7 @@ export default {
     async loadList() {
       this.loading = true;
       try {
-        const res = await fetch('/api/server/coach/all').then(response => response.json());
-        console.log(res);
+          const res = await request.get('/api/server/coach/all').then(response => response);
         this.tableData = res;
       } catch (e) {
         this.tableData = [];
@@ -181,8 +180,8 @@ export default {
       this.loading = true;
       try {
         const body = {removeRecords: checkboxRecords};
-        await XEAjax.post('/api/server/coach/save', body);
-        await this.loadList();
+          await request.post('/api/server/coach/save', body);
+          await this.loadList();
       } catch (e) {
       }
       this.loading = false;
@@ -199,8 +198,8 @@ export default {
       this.loading = true;
       try {
         const body = {removeRecords: [row]};
-        await XEAjax.post('/api/server/coach/save', body);
-        await this.loadList();
+          await request.post('/api/server/coach/save', body);
+          await this.loadList();
       } catch (e) {
       }
     },
@@ -218,8 +217,8 @@ export default {
       this.loading = true;
       try {
         const body = {insertRecords, removeRecords, updateRecords};
-        await XEAjax.post('/api/server/coach/save', body);
-        await this.loadList();
+          await request.post('/api/server/coach/save', body);
+          await this.loadList();
         await this.$XModal.message({
           content: `操作成功，新增 ${insertRecords.length} 条，更新 ${updateRecords.length} 条，删除 ${removeRecords.length} 条`,
           status: 'success'

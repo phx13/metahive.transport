@@ -5,7 +5,7 @@ import TerminalManagement from "@/views/TerminalManagement";
 import Login from "@/views/Login";
 import ForgotPassword from "@/views/ForgotPassword";
 import Register from "@/views/Register";
-import Map from "@/components/OlMap";
+import TransportScene from "@/views/TransportScene";
 
 const routes = [
   {
@@ -38,11 +38,11 @@ const routes = [
     name: 'Register',
     component: Register
   },
-  {
-    path: '/map',
-    name: 'Map',
-    component: Map
-  }
+	{
+		path: '/transport_scene',
+		name: 'TransportScene',
+		component: TransportScene
+	}
 ]
 
 const router = createRouter({

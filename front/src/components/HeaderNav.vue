@@ -8,30 +8,41 @@
       </button>
       <div id="navbarSupportedContent" class="collapse navbar-collapse">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a :class="home.class" aria-current="page" href="/">首页</a>
-          </li>
-          <li class="nav-item">
-            <router-link :class="terminalManagement.class" to="/terminal_management">终端管理</router-link>
-          </li>
-          <li class="nav-item dropdown">
-            <a :class="accountManagement.class" aria-expanded="false" class="nav-link dropdown-toggle {'active':home.isCurrent}"
-               data-bs-toggle="dropdown" href="#"
-               role="button">
-              当前用户
-            </a>
-            <ul aria-labelledby="navbarDropdown" class="dropdown-menu">
-              <li>
-                <router-link class="dropdown-item" to="/account_management">个人中心</router-link>
-              </li>
-              <li>
-                <hr class="dropdown-divider">
-              </li>
-              <li>
-                <router-link class="dropdown-item" to="/login">注销</router-link>
-              </li>
-            </ul>
-          </li>
+            <li class="nav-item">
+                <a :class="home.class" href="/">首页</a>
+            </li>
+            <li class="nav-item">
+                <router-link :class="terminalManagement.class" to="/terminal_management">终端管理</router-link>
+            </li>
+            <li class="nav-item">
+                <router-link :class="transportScene.class" to="/transport_scene">三维场景</router-link>
+            </li>
+            <template v-if="isLogin">
+                <li class="nav-item dropdown">
+                    <a :class="accountManagement.class" aria-expanded="false"
+                       class="nav-link dropdown-toggle {'active':home.isCurrent}"
+                       data-bs-toggle="dropdown" href="#"
+                       role="button">
+                        {{ username }}
+                    </a>
+                    <ul aria-labelledby="navbarDropdown" class="dropdown-menu">
+                        <li>
+                            <router-link class="dropdown-item" to="/account_management">个人中心</router-link>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <router-link class="dropdown-item" to="/login" @click="logout()">注销</router-link>
+                        </li>
+                    </ul>
+                </li>
+            </template>
+            <template v-else>
+                <li class="nav-item">
+                    <router-link :class="terminalManagement.class" to="/login">{{ username }}</router-link>
+                </li>
+            </template>
         </ul>
       </div>
     </div>
@@ -39,47 +50,57 @@
 </template>
 
 <script>
-import request from "@/assets/js/request";
+import storage from "@/assets/js/storage";
 
 export default {
   name: "HeaderNav",
   data() {
     return {
-      user: "",
-      home: {"class": "nav-link active"},
-      terminalManagement: {"class": "nav-link active"},
-      accountManagement: {"class": "nav-link dropdown-toggle active"},
+        isLogin: false,
+        username: "",
+        home: {"class": "nav-link active"},
+        terminalManagement: {"class": "nav-link active"},
+        accountManagement: {"class": "nav-link dropdown-toggle active"},
+        transportScene: {"class": "nav-link active"}
     }
   },
   //在这里调用ajax请求方法
   created() {
-    // this.getUser();
-    this.getUrl();
+      this.getUser();
+      this.getUrl();
   },
   mounted() {
-    // this.getUrl();
   },
   methods: {
     getUser: function () {
-      request.get("/api/server/user").then(res => {
-        if (res) {
-          this.user = res;
+        let username = storage.getItem("username");
+        if (username !== false) {
+            this.username = username;
+            this.isLogin = true;
+        } else {
+            this.username = "请登录";
+            this.isLogin = false;
         }
-      })
     },
     getUrl: function () {
       let currentUrl = this.$route.path;
-      this.terminalManagement.class = "nav-link";
-      this.accountManagement.class = "nav-link dropdown-toggle";
-      this.home.class = "nav-link";
-      if (currentUrl.endsWith("terminal_management")) {
-        this.terminalManagement.class = "nav-link active";
-      } else if (currentUrl.endsWith("account_management")) {
-        this.accountManagement.class = "nav-link dropdown-toggle active";
-      } else {
-        this.home.class = "nav-link active";
+        this.terminalManagement.class = "nav-link";
+        this.transportScene.class = "nav-link";
+        this.accountManagement.class = "nav-link dropdown-toggle";
+        this.home.class = "nav-link";
+        if (currentUrl.endsWith("terminal_management")) {
+            this.terminalManagement.class = "nav-link active";
+        } else if (currentUrl.endsWith("transport_scene")) {
+            this.transportScene.class = "nav-link active";
+        } else if (currentUrl.endsWith("account_management")) {
+            this.accountManagement.class = "nav-link dropdown-toggle active";
+        } else {
+            this.home.class = "nav-link active";
+        }
+    },
+      logout: function () {
+          storage.clear();
       }
-    }
   }
 }
 </script>

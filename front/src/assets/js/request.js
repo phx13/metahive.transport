@@ -1,7 +1,8 @@
 import axios from 'axios'
+import storage from "@/assets/js/storage";
 
 const request = axios.create({
-    timeout: 5000
+    timeout: 20000
 })
 
 // request 拦截器
@@ -9,8 +10,7 @@ const request = axios.create({
 // 比如统一加token，对请求参数统一加密
 request.interceptors.request.use(config => {
     config.headers['Content-Type'] = 'application/json;charset=utf-8';
-
-    // config.headers['token'] = user.token;  // 设置请求头
+    config.headers['Authorization'] = storage.getItem('token');  // 设置请求头
     return config
 }, error => {
     return Promise.reject(error)

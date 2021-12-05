@@ -12,6 +12,7 @@ import "./assets/css/style.css";
 import 'xe-utils'
 import VXETable from 'vxe-table'
 import 'vxe-table/lib/style.css'
+import * as echarts from 'echarts';
 
 
 const app = createApp(App);
@@ -20,4 +21,5 @@ app.use(router);
 app.use(VXETable);
 app.use($);
 app.config.globalProperties.$XModal = VXETable.modal;
+app.config.globalProperties.echarts = echarts;
 app.mount('#app');

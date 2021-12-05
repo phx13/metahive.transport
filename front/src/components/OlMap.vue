@@ -56,7 +56,7 @@ import Map from 'ol/Map';
 import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile';
 import XYZ from 'ol/source/XYZ';
-import {fromLonLat} from 'ol/proj'
+import {fromLonLat, toLonLat} from 'ol/proj'
 import Point from 'ol/geom/Point';
 import VectorSource from 'ol/source/Vector';
 import VectorLayer from 'ol/layer/Vector';
@@ -71,6 +71,7 @@ import CircleStyle from 'ol/style/Circle';
 import icon from '../assets/images/location.jpg';
 import Icon from "ol/style/Icon";
 import request from "@/assets/js/request";
+import storage from "@/assets/js/storage";
 
 export default {
   name: "OlMap",
@@ -286,12 +287,16 @@ export default {
     },
     addSelectListener: function () {
       this.map.on('click', (evt) => {
-            let pixel = this.map.getEventPixel(evt.originalEvent);
-            let feature = this.map.forEachFeatureAtPixel(pixel, function (feature) {
+          const coordinate = evt.coordinate;
+          const lonLat = toLonLat(coordinate);
+          alert(lonLat);
+
+          let pixel = this.map.getEventPixel(evt.originalEvent);
+          let feature = this.map.forEachFeatureAtPixel(pixel, function (feature) {
                   return feature;
-                }
-            );
-            if (feature && feature.getProperties()['id']) {
+              }
+          );
+          if (feature && feature.getProperties()['id']) {
               let coordinate = feature.getProperties()['geometry']['flatCoordinates'];
               this.flyTo(coordinate, function () {
               });
@@ -326,7 +331,12 @@ export default {
       )
     },
     showTrack: function (trackType) {
-      this.addFeature(trackType);
+        let username = storage.getItem("username");
+        if (username === false) {
+            alert("请登录查看");
+        } else {
+            this.addFeature(trackType);
+        }
     },
     change_img() {
       var img = new TileLayer({
@@ -368,7 +378,8 @@ export default {
     }
   },
   mounted() {
-    this.map = this.initMap(fromLonLat([105.74982533319637, 37.71602799673174]), 4.7);
+      // this.map = this.initMap(fromLonLat([105.74982533319637, 37.71602799673174]), 4.7);
+      this.map = this.initMap(fromLonLat([116.52616976895676,39.991732847489686]), 15);
 
     this.onRender();
 

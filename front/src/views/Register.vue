@@ -11,25 +11,25 @@
                 <div class="col-lg-12">
                   <div class="form-group">
                     <label class=""> 用户名 </label>
-                    <input class="form-control" name="s" placeholder="用户名" required="" type="text">
+                    <input id="name" class="form-control" placeholder="用户名" required="" type="text">
                   </div>
                 </div>
                 <div class="col-lg-12">
                   <div class="form-group">
                     <label class=""> 邮箱 </label>
-                    <input class="form-control" name="email" placeholder="邮箱" required="" type="email">
+                      <input id="email" class="form-control" placeholder="邮箱" required="" type="email">
                   </div>
                 </div>
                 <div class="col-lg-12">
                   <div class="form-group">
                     <label class=""> 密码 </label>
-                    <input class="form-control" placeholder="密码" required="" type="password">
+                      <input id="password" class="form-control" placeholder="密码" required="" type="password">
                   </div>
                 </div>
                 <div class="col-lg-12">
                   <div class="form-group">
                     <label class=""> 确认密码 </label>
-                    <input class="form-control" placeholder="确认密码" required="" type="password">
+                      <input id="comfirmPassword" class="form-control" placeholder="确认密码" required="" type="password">
                   </div>
                 </div>
                 <div class="col-lg-12 mt-4 mb-3">
@@ -51,12 +51,25 @@
 </template>
 
 <script>
+import request from "@/assets/js/request";
+import $ from "jquery";
+
 export default {
-  name: "Register",
-  methods: {
-    goRegister: function () {
-      this.$router.push('/login');
-    }
+    name: "Register",
+    methods: {
+        goRegister: function () {
+            if ($("#password").val() != $("#comfirmPassword").val()) {
+                return;
+            }
+            let registerUser = {
+                "name": $("#name").val(),
+                "email": $("#email").val(),
+                "password": $("#password").val()
+            }
+            request.post("/api/server/user/register", registerUser).then(res => {
+                alert(res["result"]);
+            })
+        }
   }
 }
 </script>

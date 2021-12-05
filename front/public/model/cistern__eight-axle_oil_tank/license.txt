@@ -1,0 +1,11 @@
+Model Information:
+* title:	Cistern , eight-axle oil tank
+* source:	https://sketchfab.com/3d-models/cistern-eight-axle-oil-tank-393f650bd76d4f269126571c42560730
+* author:	NIKCORE (https://sketchfab.com/NIKCORE)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Cistern , eight-axle oil tank" (https://sketchfab.com/3d-models/cistern-eight-axle-oil-tank-393f650bd76d4f269126571c42560730) by NIKCORE (https://sketchfab.com/NIKCORE) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

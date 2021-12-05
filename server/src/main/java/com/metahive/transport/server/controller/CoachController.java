@@ -71,5 +71,10 @@ public class CoachController {
 
         return true;
     }
+
+    @GetMapping("/{id}")
+    public Coach selectCoachById(@PathVariable String id) {
+        return coachService.getById(id);
+    }
 }
 

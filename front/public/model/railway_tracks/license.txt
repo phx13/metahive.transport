@@ -1,0 +1,11 @@
+Model Information:
+* title:	railway tracks
+* source:	https://sketchfab.com/3d-models/railway-tracks-d0a264611044435185513b36c11b86ec
+* author:	jameshughdalton (https://sketchfab.com/jameshughdalton)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "railway tracks" (https://sketchfab.com/3d-models/railway-tracks-d0a264611044435185513b36c11b86ec) by jameshughdalton (https://sketchfab.com/jameshughdalton) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
