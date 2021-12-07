@@ -1,6 +1,8 @@
 <template>
     <header-nav/>
-    <div class="container-fluid">
+<!--	<div class="bg-overlay"></div>-->
+    <div class="container-fluid" style="background-image: url('../../images/404.jpg')">
+		
         <div class="row">
             <div class="col-2">
                 <video-player/>
@@ -10,9 +12,9 @@
                 <three-scene/>
             </div>
             <div class="col-2">
-                <bar-chart :chartId="chart4"/>
-                <bar-chart :chartId="chart5"/>
-                <bar-chart :chartId="chart6"/>
+                <dashboard :chartId="chart4"/>
+                <dashboard :chartId="chart5"/>
+                <dashboard :chartId="chart6"/>
             </div>
         </div>
     </div>
@@ -21,7 +23,7 @@
 <script>
 import ThreeScene from "@/components/ThreeScene";
 import HeaderNav from "@/components/HeaderNav";
-import BarChart from "@/components/BarChart";
+import Dashboard from "@/components/Dashboard";
 import VideoPlayer from "@/components/VideoPlayer";
 import CoachDetail from "@/components/CoachDetail";
 
@@ -34,7 +36,7 @@ export default {
             chart6: "chart6"
         }
     },
-    components: {CoachDetail, VideoPlayer, BarChart, HeaderNav, ThreeScene}
+	components: {CoachDetail, VideoPlayer, Dashboard, HeaderNav, ThreeScene}
 }
 </script>
 

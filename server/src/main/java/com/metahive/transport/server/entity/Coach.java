@@ -37,6 +37,12 @@ public class Coach implements Serializable {
     @ApiModelProperty(value = "车厢型号")
     private String type;
 
+    @ApiModelProperty(value = "图片路径")
+    private String imagePath;
+
+    @ApiModelProperty(value = "视频路径")
+    private String videoPath;
+
     @ApiModelProperty(value = "来自")
     private String fromName;
 

@@ -1,11 +1,29 @@
 <template>
-<!--    <video id="videoContainer" controls autoplay src="https://www.youtube.com/embed/FkqLBkBvd3U"/>-->
-    <iframe id="videoContainer" src="https://www.youtube.com/embed/FkqLBkBvd3U" title="车厢实时视频" allowfullscreen></iframe>
+    <div id="videoContainer" style="background-image: url('../../images/video-bg.png')">
+        <h5 class="text-white">车厢实时视频</h5>
+        <iframe :src="videoPath" style="height:200px" allowfullscreen></iframe>
+    </div>
 </template>
 
 <script>
+import emitter from "@/assets/js/emitter";
+import request from "@/assets/js/request";
+
 export default {
-    name: "VideoPlayer"
+    name: "VideoPlayer",
+    data() {
+        return {
+            videoPath: ""
+        }
+    },
+    mounted() {//在模板编译完成后执行
+        // 启用监听
+        emitter.on('*', (type, info) => {
+            request.get("/api/server/coach/" + info).then(res => {
+                this.videoPath = res.videoPath;
+            })
+        })
+    }
 }
 </script>
 

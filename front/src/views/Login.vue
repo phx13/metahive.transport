@@ -5,7 +5,7 @@
     </div>
 
     <!-- Navigation Bar-->
-    <section class="vh-100 d-flex align-items-center" style="background-image: url('../assets/images/bg-login.jpg');">
+    <section class="vh-100 d-flex align-items-center" style="background-image: url('../../images/bg-login.jpg');">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-6 col-lg-5">
