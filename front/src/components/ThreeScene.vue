@@ -10,8 +10,9 @@ import {GUI} from "three/examples/jsm/libs/lil-gui.module.min";
 import emitter from "@/assets/js/emitter";
 import request from "@/assets/js/request";
 import {TWEEN} from "three/examples/jsm/libs/tween.module.min";
+import sceneHelper from "@/assets/js/scene-helper";
 
-let scene, textureLoader, camera, renderer, light, pointLight, gltfLoader, controls;
+let scene, camera, renderer, light, pointLight, gltfLoader, controls;
 
 export default {
 	name: "ThreeScene",
@@ -19,22 +20,18 @@ export default {
 		//初始化three.js相关内容
 		init() {
 			//初始化场景
-			scene = new THREE.Scene();
+			scene = sceneHelper.createScene();
 			
 			//天空盒
-			const skyboxImage = "Daylight Box"
-			const materialArray = this.createMaterialArray(skyboxImage);
-			const skyboxGeo = new THREE.BoxGeometry(10000, 10000, 10000);
-			const skybox = new THREE.Mesh(skyboxGeo, materialArray);
+			const materialArray = sceneHelper.loadSkyboxMaterial("../../skybox/", "Daylight Box", ".bmp");
+			const skybox = sceneHelper.createSkybox(materialArray, 5000, 5000, 5000);
+			skybox.position.set(0, 2500, 0);
 			scene.add(skybox);
 			
 			//初始化相机
 			const containerWidth = this.$refs.containerScene.offsetWidth;
 			const containerHeight = this.$refs.containerScene.offsetHeight;
-			camera = new THREE.PerspectiveCamera(100, containerWidth / containerHeight, 10, 15000);
-			// camera.position.set(2371.0970415723077, 2000, -1183.5378941679967);
-			// camera.position.set(0, 1500, 0);
-			// camera.lookAt(new THREE.Vector3(0, -1, 0));
+			camera = new THREE.PerspectiveCamera(100, containerWidth / containerHeight, 10, 15000)
 			camera.position.set(0, 700, 2000);
 			camera.lookAt(new THREE.Vector3(0, 0, 0));
 			
@@ -78,17 +75,19 @@ export default {
 			//     scene.add(track.scene);
 			// });
 			
-			const track = new THREE.RingGeometry(1700, 1680, 50);
-			const trackMaterial = new THREE.MeshBasicMaterial({color: 0x001111, side: THREE.DoubleSide});
-			const trackMesh = new THREE.Mesh(track, trackMaterial);
-			track.rotateX(Math.PI / 2);
-			scene.add(trackMesh);
-			
-			const ground = new THREE.CircleGeometry(1650, 128);
-			const groundMaterial = new THREE.MeshBasicMaterial({color: 0xADFF2F, side: THREE.DoubleSide});
-			const groundMash = new THREE.Mesh(ground, groundMaterial);
-			ground.rotateX(Math.PI / 2);
-			scene.add(groundMash);
+			// const track = new THREE.RingGeometry(1700, 1680, 50);
+			// const trackMaterial = new THREE.MeshBasicMaterial({color: 0x001111, side: THREE.DoubleSide});
+			// const trackMesh = new THREE.Mesh(track, trackMaterial);
+			// // track.rotation.x = Math.PI / 2;
+			// track.rotateX(Math.PI / 2);
+			// scene.add(trackMesh);
+			//
+			// const ground = new THREE.CircleGeometry(1650, 128);
+			// const groundMaterial = new THREE.MeshBasicMaterial({color: 0xADFF2F, side: THREE.DoubleSide});
+			// const groundMash = new THREE.Mesh(ground, groundMaterial);
+			// // ground.rotation.x = Math.PI / 2;
+			// ground.rotateX(Math.PI / 2);
+			// scene.add(groundMash);
 			
 			// loader.load('../../model/cistern__eight-axle_oil_tank/scene.gltf', function (train) {
 			//     train.scene.name = "train";
@@ -121,8 +120,8 @@ export default {
 			controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
 			controls.dampingFactor = 0.05;
 			controls.screenSpacePanning = false;
-			controls.minDistance = 10;
-			controls.maxDistance = 5000;
+			controls.minDistance = 100;
+			controls.maxDistance = 3000;
 			controls.maxPolarAngle = Math.PI / 2;
 			
 			//初始化容器放缩事件
@@ -143,6 +142,7 @@ export default {
 		},
 		createPanel() {
 			const gui = new GUI({container: this.$refs.containerScene, title: "三维场景控制器"});
+			
 			
 			//车厢列表
 			const coachList = gui.addFolder("终端列表");
@@ -226,13 +226,17 @@ export default {
 			const editObjs = {
 				addCube: function () {
 					const geometry = new THREE.BoxGeometry(editObjs.width, editObjs.height, editObjs.depth);
-					const material = new THREE.MeshBasicMaterial({color: colorFormats});
+					const material = new THREE.MeshBasicMaterial({color: colorFormats.string});
 					const cube = new THREE.Mesh(geometry, material);
+					cube.position.set(editObjs.positionX, editObjs.positionY, editObjs.positionZ);
 					scene.add(cube);
 				},
 				width: 100,
 				height: 100,
-				depth: 100
+				depth: 100,
+				positionX: 0,
+				positionY: 0,
+				positionZ: 0,
 			}
 			// Create color pickers for multiple color formats
 			const colorFormats = {
@@ -242,10 +246,13 @@ export default {
 				array: [1, 1, 1]
 			};
 			editList.add(editObjs, "addCube").name("添加一个楼房");
-			editList.add(editObjs, 'width');   // Number Field
-			editList.add(editObjs, 'height');   // Number Field
-			editList.add(editObjs, 'depth');   // Number Field
-			editList.addColor(colorFormats, 'string');
+			editList.add(editObjs, 'width').name("宽");   // Number Field
+			editList.add(editObjs, 'height').name("高");   // Number Field
+			editList.add(editObjs, 'depth').name("长");   // Number Field
+			editList.add(editObjs, 'positionX').name("x轴");   // Number Field
+			editList.add(editObjs, 'positionY').name("y轴");   // Number Field
+			editList.add(editObjs, 'positionZ').name("z轴");   // Number Field
+			editList.addColor(colorFormats, 'string').name("颜色");
 			
 			
 			// 场景操作
@@ -346,32 +353,15 @@ export default {
 			gui.domElement.style.top = "5.5em";
 			gui.domElement.style.left = "30.5em";
 		},
-		createPathStrings: function (filename) {
-			const basePath = "../../skybox/";
-			const baseFilename = basePath + filename;
-			const fileType = ".bmp";
-			// 顺序为[right,left,up,down,front,back]
-			const sides = ["Right", "Left", "Top", "Bottom", "Front", "Back"];
-			const pathStings = sides.map(side => {
-				return baseFilename + "_" + side + fileType;
-			});
-			
-			return pathStings;
-		},
-		createMaterialArray: function (filename) {
-			const skyboxImagepaths = this.createPathStrings(filename);
-			const materialArray = skyboxImagepaths.map(image => {
-				let texture = new THREE.TextureLoader().load(image);
-				
-				return new THREE.MeshBasicMaterial({map: texture, side: THREE.BackSide}); // <---
-				
-			});
-			return materialArray;
+		createGlobalController: function () {
+			let globalController = sceneHelper.createGlobalController(this.$refs.containerScene, "三维场景控制器", "5.5em", "30.5em");
+			sceneHelper.addSkyboxController(scene, globalController);
 		}
 	},
 	mounted() {
 		this.init();
-		this.createPanel();
+		// this.createPanel();
+		this.createGlobalController();
 	}
 }
 </script>
