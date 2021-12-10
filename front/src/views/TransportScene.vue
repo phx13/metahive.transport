@@ -12,9 +12,9 @@
                 <three-scene/>
             </div>
             <div class="col-2">
-                <dashboard :chartId="chart4"/>
-                <dashboard :chartId="chart5"/>
-                <dashboard :chartId="chart6"/>
+				<dashboard :chartId="chart1" :chartTitle="chart1Title" :chartColor="chart1Color"/>
+				<dashboard :chartId="chart2" :chartTitle="chart2Title" :chartColor="chart2Color"/>
+				<dashboard :chartId="chart3" :chartTitle="chart3Title" :chartColor="chart3Color"/>
             </div>
         </div>
     </div>
@@ -31,9 +31,15 @@ export default {
     name: "TransportScene",
     data() {
         return {
-            chart4: "chart4",
-            chart5: "chart5",
-            chart6: "chart6"
+			chart1: "chart1",
+			chart1Title: "油量",
+			chart1Color: "#5470c6",
+			chart2: "chart2",
+			chart2Title: "温度",
+			chart2Color: "#91cc75",
+			chart3: "chart3",
+			chart3Title: "压力",
+			chart3Color: "#fac858",
         }
     },
 	components: {CoachDetail, VideoPlayer, Dashboard, HeaderNav, ThreeScene}

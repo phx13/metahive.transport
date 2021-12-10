@@ -23,31 +23,29 @@ export default {
     data() {
         return {
             currentCoach: {
-                id: "",
-                user: "",
-                type: "",
-                coordinate: "",
-                from: "",
-                to: "",
-                imagePath: ""
-            }
-        }
-    },
-    mounted() {//在模板编译完成后执行
-        // 启用监听
-        emitter.on('*', (type, info) => {
-            console.log(type, info);
-            request.get("/api/server/coach/"+info).then(res => {
-                this.currentCoach.id = res.id;
-                this.currentCoach.user = res.username;
-                this.currentCoach.type = res.type;
-                this.currentCoach.coordinate = res.currentCoord;
-                this.currentCoach.from = res.fromName;
-                this.currentCoach.to = res.toName;
-                this.currentCoach.imagePath = res.imagePath;
-            })
-        })
-    }
+				id: "",
+				user: "",
+				type: "",
+				coordinate: "",
+				from: "",
+				to: "",
+				imagePath: ""
+			}
+		}
+	},
+	mounted() {
+		emitter.on("receiveCoachId", (info) => {
+			request.get("/api/server/coach/" + info).then(res => {
+				this.currentCoach.id = res.id;
+				this.currentCoach.user = res.username;
+				this.currentCoach.type = res.type;
+				this.currentCoach.coordinate = res.currentCoord;
+				this.currentCoach.from = res.fromName;
+				this.currentCoach.to = res.toName;
+				this.currentCoach.imagePath = res.imagePath;
+			})
+		})
+	}
 }
 </script>
 
